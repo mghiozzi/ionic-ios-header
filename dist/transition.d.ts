@@ -1,0 +1,31 @@
+import { ElementRef, EventEmitter, Renderer2 } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { Content, Platform } from 'ionic-angular';
+export declare class TransitionDirective {
+    private element;
+    private renderer;
+    private content;
+    private platform;
+    appear: EventEmitter<boolean>;
+    nav: any;
+    searchbar: any;
+    toolbar: any;
+    contentbox: any;
+    fade: any;
+    forceIOS: boolean;
+    ios: boolean;
+    subscriptionScroll: Subscription;
+    state: boolean;
+    private changes;
+    domChange: EventEmitter<{}>;
+    constructor(element: ElementRef, renderer: Renderer2, content: Content, platform: Platform);
+    ngAfterViewInit(): void;
+    initIOS(): void;
+    initAndroid(): void;
+    subscribe(): void;
+    transitionToHeader(): void;
+    transitionToBody(): void;
+    unsubscribe(): void;
+    debug(): void;
+    ngOnDestroy(): void;
+}
