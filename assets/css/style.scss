@@ -1,6 +1,7 @@
 ---
 ---
 
+<<<<<<< HEAD
 $primary: #596164;
 $secondary: #ffb199;
 
@@ -30,3 +31,14 @@ $code-text-color: #fff;
 .underline{
   text-decoration: underline;
 }
+=======
+$primary: #f857a6;
+$secondary: #ff5858;
+$header-bg-color: darken($primary,2%);
+$header-bg-color-secondary: darken( $secondary,2%);
+$section-headings-color: $primary;
+$body-link-color: $primary;
+$blockquote-text-color: $primary;
+$code-bg-color: linear-gradient(to right, lighten($header-bg-color,20%) , lighten( $header-bg-color-secondary, 10% ));
+@import "{{ site.theme }}";
+>>>>>>> cb9939b1afc4d697a55ea5d9d5dd522bce66b0b6
