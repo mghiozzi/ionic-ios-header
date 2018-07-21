@@ -1,0 +1,13 @@
+$filter: blur(15px) !default;
+$background: rgba(255,255,255,0.7) !default;
+
+.header-ios .toolbar-ios:last-child .toolbar-background-ios {
+  border: none;
+}
+.toolbar-background-ios{
+  background: transparent!important;
+}
+.header-ios{
+  -webkit-backdrop-filter: $filter!important;
+  background: $background
+}

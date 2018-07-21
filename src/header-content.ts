@@ -7,7 +7,7 @@ const HTML_TEMPLATE = `
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen>
   <div #toolbar>
     <h1 transition [forceIOS]="forceIOS" [contentbox]="content" [nav]="nav" [fade]="fade" [toolbar]="toolbar" [searchbar]="searchbar" class="bold-header">{{title}}</h1>
     <ion-toolbar [hidden]="!search" #searchbar>
