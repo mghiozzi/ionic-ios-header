@@ -76,11 +76,11 @@ export class TransitionDirective {
 
   transitionToHeader(){
     this.renderer.setStyle(this.fade, 'opacity', '1');
-    //if (this.searchbar) this.renderer.appendChild(this.nav, this.searchbar._elementRef.nativeElement)
+    if (this.searchbar) this.renderer.appendChild(this.nav, this.searchbar._elementRef.nativeElement)
   }
 
   transitionToBody(){
-    //if (this.searchbar) this.renderer.appendChild(this.toolbar, this.searchbar._elementRef.nativeElement)
+    if (this.searchbar) this.renderer.appendChild(this.toolbar, this.searchbar._elementRef.nativeElement)
     this.renderer.setStyle(this.fade, 'opacity', '0');
   }
 

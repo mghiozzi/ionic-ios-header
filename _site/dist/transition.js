@@ -64,10 +64,12 @@ var TransitionDirective = (function () {
     };
     TransitionDirective.prototype.transitionToHeader = function () {
         this.renderer.setStyle(this.fade, 'opacity', '1');
-        //if (this.searchbar) this.renderer.appendChild(this.nav, this.searchbar._elementRef.nativeElement)
+        if (this.searchbar)
+            this.renderer.appendChild(this.nav, this.searchbar._elementRef.nativeElement);
     };
     TransitionDirective.prototype.transitionToBody = function () {
-        //if (this.searchbar) this.renderer.appendChild(this.toolbar, this.searchbar._elementRef.nativeElement)
+        if (this.searchbar)
+            this.renderer.appendChild(this.toolbar, this.searchbar._elementRef.nativeElement);
         this.renderer.setStyle(this.fade, 'opacity', '0');
     };
     TransitionDirective.prototype.unsubscribe = function () {
