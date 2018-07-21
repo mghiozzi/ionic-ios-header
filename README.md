@@ -2,25 +2,21 @@
 
 Simple ionic module that emulates iOS 11 headers.
 
+[Try it on StackBlitz!](https://stackblitz.com/edit/ionic-ios-header){: .underline}
+
 ## Features:
 * Easy to setup 🏂
 * Searchbar support 🔍
 * Android fallback 🤖
 * Customizable 👨‍🎨️
 
-## How does it looks like?
-<p align="left">
-  <img width="392" height="682" src="https://github.com/MarcelloGhiozzi/ionic-ios-header/raw/master/demo.gif">
-</p>
-
-
 ## How do I install it?
 Install it from npm:
-```bash
+```
 npm i --save ionic-ios-header
 ```
 You just need to import the module:
-```javascript
+```
 import { IonicIOSHeaderModule } from 'ionic-ios-header';
 @NgModule({
   ...
@@ -34,7 +30,7 @@ import { IonicIOSHeaderModule } from 'ionic-ios-header';
 
 ## How do I use it?
 It's easy! Just use the header-content component, instead of ion-header and ion-content, in your page!
-```html
+```
 <header-content search="true" [(query)]="query" title="Photos">
   //What you put here will be placed inside ion-content
   <ion-card *ngFor="let photo of photos;  let i = index">
