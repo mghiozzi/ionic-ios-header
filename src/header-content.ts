@@ -10,6 +10,8 @@ const HTML_TEMPLATE = `
 <ion-content>
   <div #toolbar>
     <h1 transition [forceIOS]="forceIOS" [contentbox]="content" [nav]="nav" [fade]="fade" [toolbar]="toolbar" [searchbar]="searchbar" class="bold-header">{{title}}</h1>
+  </div>
+  <div class="sticky">
     <ion-toolbar [hidden]="!search" #searchbar>
         <ion-searchbar
         [(ngModel)]="query"
@@ -27,7 +29,8 @@ const HTML_TEMPLATE = `
   selector: 'header-content',
   template: HTML_TEMPLATE,
   styles: [ '.bold-header { padding-top: 0px;margin: 0;padding-left: 15px;padding-bottom: 0px;font-size: 2.7em;font-weight: bolder;color: #111}',
-            '.statusbar{padding-top: calc(20px + 4px);padding-top: calc(constant(safe-area-inset-top) + 4px);padding-top: calc(env(safe-area-inset-top) + 4px);min-height: calc(44px + 20px);min-height: calc(44px + constant(safe-area-inset-top));min-height: calc(44px + env(safe-area-inset-top)); }']
+            '.statusbar{padding-top: calc(20px + 4px);padding-top: calc(constant(safe-area-inset-top) + 4px);padding-top: calc(env(safe-area-inset-top) + 4px);min-height: calc(44px + 20px);min-height: calc(44px + constant(safe-area-inset-top));min-height: calc(44px + env(safe-area-inset-top)); }',
+            '.sticky{position: -webkit-sticky; position: sticky; top: -1px; z-index: 300;}']
 })
 export class HeaderContentComponent {
 
