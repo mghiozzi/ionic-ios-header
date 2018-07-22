@@ -1,26 +1,29 @@
-import { ElementRef, Output, Directive, EventEmitter, Renderer2, Input } from '@angular/core';
+import { ElementRef, Output, Directive, EventEmitter, Renderer2, Input} from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { Content, Platform } from 'ionic-angular'
+import { Content, Platform, Header} from 'ionic-angular'
 
 @Directive({
   selector: '[transition]' // Attribute selector
 })
 export class TransitionDirective {
 
-  @Output() appear: EventEmitter<boolean>;
-  @Input() nav: any;
-  @Input() searchbar: any;
-  @Input() toolbar: any;
+  //Elements
+  @Input() searchbar: ElementRef;
+  @Input() toolbar: ElementRef;
   @Input() contentbox: any;
-  @Input() fade: any;
+  @Input() nav: Header;
+  @Input() fade: ElementRef;
+
+  //Events
+  private subscriptionScroll: Subscription;
+  private changes: MutationObserver;
+  @Output() public domChange = new EventEmitter();
+  @Output() appear: EventEmitter<boolean>;
+
+  //Settings
   @Input() forceIOS: boolean = false;
   ios: boolean = false;
-  subscriptionScroll: Subscription;
   state: boolean = false;
-
-  private changes: MutationObserver;
-  @Output()
-  public domChange = new EventEmitter();
 
   constructor(private element: ElementRef, private renderer: Renderer2, private content: Content,private platform: Platform) {
 
@@ -34,15 +37,21 @@ export class TransitionDirective {
     });
   }
 
+  contentChange(){
+    if (this.contentbox){
+      this.changes = new MutationObserver((mutations: MutationRecord[]) => {
+        if (this.contentbox.clientHeight < this.content.contentHeight) this.transitionToBody();
+      });
+      this.changes.observe(this.contentbox, {
+        attributes: true,
+        childList: true,
+        characterData: true
+      });
+    }
+  }
+
   initIOS(){
-    this.changes = new MutationObserver((mutations: MutationRecord[]) => {
-      if (this.contentbox.clientHeight < this.content.contentHeight) this.transitionToBody();
-    });
-    this.changes.observe(this.contentbox, {
-      attributes: true,
-      childList: true,
-      characterData: true
-    });
+    this.contentChange();
     this.renderer.setStyle(this.element.nativeElement, 'transition', 'opacity 1s linear');
     this.renderer.setStyle(this.element.nativeElement, 'opacity', '1');
     this.appear = new EventEmitter<boolean>();
