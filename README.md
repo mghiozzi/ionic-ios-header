@@ -1,8 +1,9 @@
 # Ionic iOS Header
 
 Simple ionic module that emulates iOS 11 headers.
+Still in development 😎
 
-[Try it on StackBlitz!](https://stackblitz.com/edit/ionic-ios-header){: .underline}
+[Try it on StackBlitz!](https://stackblitz.com/edit/ionic-ios-header)
 
 ## Features:
 * Easy to setup 🏂
@@ -43,8 +44,22 @@ This is a pretty complete example:
 * ```query``` attribute 2-way-binds a variable to the search input: no need to manage events!
 * ```title``` attribute is self-explanatory
 
+## Styles:
+You can use pre-made styles make the header even cooler!
+At the moment there are two stiles:
+* ```blur-overlay``` which is my attempt at emulating the native blur effect found iOS 11 headers.
+* ```white-noborder``` which displays a white background header whith no borders.
+
+Simply import one in your src/theme/variables.css
+```
+@import "../../node-modules/ionic-ios-header/scss/blur-overlay";
+@import "ionic.globals";
+```
+
+
 
 ## Work in progress:
 * Unit Tests
 * Custom templates
 * Code cleaning, missing types
+* Complete documentation

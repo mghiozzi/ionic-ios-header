@@ -1,5 +1,7 @@
-import { Component, Input, Output, EventEmitter, ElementRef, TemplateRef } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Component, Input, Output, EventEmitter, TemplateRef, ViewChild, Renderer2, ElementRef } from '@angular/core';
+import { Platform, Content, Toolbar } from 'ionic-angular';
+import { Subscription } from 'rxjs/Subscription';
+
 const HTML_TEMPLATE = `
 <ion-header class="statusbar" #nav>
   <ion-navbar>
@@ -12,7 +14,7 @@ const HTML_TEMPLATE = `
 
 <ion-content fullscreen no-bounce>
   <div #toolbar>
-    <h1 transition [forceIOS]="forceIOS" [contentbox]="content" [nav]="nav" [fade]="fade" [toolbar]="toolbar" [searchbar]="searchbar" class="bold-header">{{title}}</h1>
+    <h1 #header class="bold-header">{{title}}</h1>
     <ion-toolbar [hidden]="!search" #searchbar>
         <ion-searchbar
         [(ngModel)]="query"
@@ -36,7 +38,7 @@ export class HeaderContentComponent {
   @Input() title: string;
   @Input() search: boolean = false;
   @Input() forceIOS: boolean = false;
-  @Input() content: ElementRef;
+  @Input() contentbox: any;
 
   //Searchbar
   @Input() query: string;
@@ -47,8 +49,117 @@ export class HeaderContentComponent {
   @Input() navbarEnd: TemplateRef<void>;
   @Input() headerEnd: TemplateRef<void>;
 
-  constructor() {
+  //Elements
+  @ViewChild('searchbar') searchbar: Toolbar;
+  @ViewChild('toolbar') toolbar: ElementRef;
+  @ViewChild('nav') nav: ElementRef;
+  @ViewChild('fade') fade: ElementRef;
+  @ViewChild('header') element: ElementRef;
+  @ViewChild(Content) content: Content;
 
+  //Events
+  private subscriptionScroll: Subscription;
+  private changes: MutationObserver;
+  @Output() public domChange = new EventEmitter();
+  @Output() appear: EventEmitter<boolean>;
+
+  //Utils
+  private ios: boolean = false;
+  private state: boolean = false;
+
+
+
+  constructor(private renderer: Renderer2, private platform: Platform) {
+
+  }
+
+  //Life cycle
+  ngAfterViewInit(){
+    this.platform.ready().then(() => {
+      this.ios = this.platform.is('ios') || this.forceIOS;
+      if (this.ios) this.initIOS();
+      else this.initAndroid();
+    });
+  }
+
+  ngOnDestroy(){
+    this.unsubscribe();
+  }
+
+  //Sub Management
+  unsubscribe(){
+    if(this.subscriptionScroll) this.subscriptionScroll.unsubscribe();
+    if (this.changes) this.changes.disconnect();
+  }
+
+  subscribe(){
+    this.contentChange();
+    this.subscriptionScroll =  this.content.ionScroll
+      .subscribe((data) => {
+        if (!this.state && data.scrollTop >= this.element.nativeElement.offsetHeight-5){
+          this.state = true;
+          this.transitionToHeader()
+        }
+        if (this.state && data.scrollTop < this.element.nativeElement.offsetHeight){
+          this.state = false;
+          this.transitionToBody()
+        }
+      });
+  }
+
+
+  //Subscription logic
+  contentChange(){
+    if (this.contentbox){
+      this.changes = new MutationObserver((mutations: MutationRecord[]) => {
+        if (this.contentbox.clientHeight < this.content.contentHeight) this.transitionToBody();
+      });
+      this.changes.observe(this.contentbox, {
+        attributes: true,
+        childList: true,
+        characterData: true
+      });
+    }
+  }
+
+  initIOS(){
+    this.contentChange();
+    this.renderer.setStyle(this.element.nativeElement, 'transition', 'opacity 1s linear');
+    this.renderer.setStyle(this.element.nativeElement, 'opacity', '1');
+    this.appear = new EventEmitter<boolean>();
+    let height = this.toolbar.nativeElement.clientHeight; //USE RULER
+    let styleheight = height + 'px';
+    this.renderer.setStyle(this.toolbar.nativeElement, 'min-height', styleheight)
+    this.renderer.setStyle(this.fade.nativeElement, 'opacity', '0');
+    this.renderer.setStyle(this.fade.nativeElement, 'transition', 'opacity 0.155s linear');
+    this.subscribe();
+  }
+
+  initAndroid(){
+    this.renderer.setStyle(this.element.nativeElement, 'display', 'none');
+    this.renderer.setStyle(this.fade.nativeElement, 'opacity', '1');
+    if (this.searchbar) this.renderer.appendChild(this.nav.nativeElement, this.searchbar._elementRef.nativeElement)
+  }
+
+  transitionToHeader(){
+    this.renderer.setStyle(this.fade.nativeElement, 'opacity', '1');
+    if (this.searchbar) this.renderer.appendChild(this.nav.nativeElement, this.searchbar._elementRef.nativeElement)
+  }
+
+  transitionToBody(){
+    if (this.searchbar) this.renderer.appendChild(this.toolbar.nativeElement, this.searchbar._elementRef.nativeElement)
+    this.renderer.setStyle(this.fade.nativeElement, 'opacity', '0');
+  }
+
+  //Extra
+
+  debug(){
+    console.log('content', JSON.stringify(this.contentbox))
+    console.log('element:', this.element);
+    console.log('toolbar:', this.toolbar);
+    console.log('fade:', this.fade);
+    console.log('searchbar', this.searchbar);
+    console.log('nav', this.nav);
   }
 
 }

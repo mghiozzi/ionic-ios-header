@@ -1,11 +1,12 @@
 {
   "name": "ionic-ios-header",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A Simple Ionic Module that emulates iOS 11 headers",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "scss"
   ],
   "scripts": {
     "ngc": "ngc",
