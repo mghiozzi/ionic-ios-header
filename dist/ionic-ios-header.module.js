@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderContentComponent } from './header-content';
-import { TransitionDirective } from './transition';
 import { IonicModule } from 'ionic-angular';
 var IonicIOSHeaderModule = (function () {
     function IonicIOSHeaderModule() {
@@ -13,7 +12,6 @@ var IonicIOSHeaderModule = (function () {
                         CommonModule
                     ],
                     declarations: [
-                        TransitionDirective,
                         HeaderContentComponent
                     ],
                     exports: [
