@@ -1,7 +1,6 @@
 import { NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common'
 import { HeaderContentComponent } from './header-content';
-import { TransitionDirective } from './transition';
 import { IonicModule } from 'ionic-angular';
 
 @NgModule({
@@ -10,7 +9,6 @@ import { IonicModule } from 'ionic-angular';
         CommonModule
     ],
     declarations: [
-        TransitionDirective,
         HeaderContentComponent
     ],
     exports: [
