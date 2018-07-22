@@ -13,8 +13,22 @@ $body-link-color: $primary;
 //$code-text-color: #fff;
 @import "{{ site.theme }}";
 .page-header{
-  background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.8) 35%), url('../demo.mp4'), url('../demo.jpg');
+  background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.8) 50%), url('../demo.mp4'), url('../demo.jpg');
   background-size: cover;
+  text-align: right;
+}
+@media screen and (max-width: 42em) {
+  .btn {
+    display: inline;
+  }
+
+  .project-name {
+    font-size: 1em;
+  }
+
+  .project-tagline {
+    font-size: 0.8em;
+  }
 }
 
 
